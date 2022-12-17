@@ -42,25 +42,24 @@ void print_creation_menu(){
             "0. Exit.\n\n";
 }
 
-Vector creation_menu(){
+void creation_menu(Vector &vector){
     print_creation_menu();
     int choice;
     choice = get_menu_item(0, 3);
-    if (choice == 1) {
-        Vector vector;
-        return vector;
-    }
+    if (choice == 1) return;
     if (choice == 2) {
         int n = -1;
         while (n < 0) n = get_int("Input n: ");
-        Vector vector(n);
-        return vector;
+        Vector copy(n);
+        vector = copy;
+        return;
     }
     if (choice == 3) {
         string str;
         cin >> str;
-        Vector vector(str);
-        return vector;
+        Vector copy(str);
+        vector = copy;
+        return;
     }
     exit(0);
 }
@@ -76,28 +75,40 @@ void print_processing_menu(){
             "0. Exit.\n\n";
 }
 
-void processing_menu(Vector vector1, Vector vector2){
+void processing_menu(Vector &vector1, Vector &vector2){
     print_processing_menu();
-    int choice;
-    int n;
+    int choice, n;
     string str;
+    Vector vector_res;
     do {
         choice = get_menu_item(0, 7);
         switch (choice) {
             case 1:
-                OR(vector1, vector2).get_array();
+                //vector1.or_operation(vector2).get_array();
+                vector_res = vector1 || vector2;
+                vector_res.get_array();
                 break;
             case 2:
-                AND(vector1, vector2).get_array();
+                //vector1.and_operation(vector2).get_array();
+                vector_res = vector1 && vector2;
+                vector_res.get_array();
                 break;
             case 3:
                 n = get_vector_number(1, 2);
-                if (n == 1) vector1.NOT().get_array();
-                else vector2.NOT().get_array();
+                if (n == 1) {
+                    //vector1.not_operation().get_array();
+                    vector_res = ~vector1;
+                    vector_res.get_array();
+                } else {
+                    vector_res = ~vector2;
+                    vector_res.get_array();
+                    //vector2.not_operation().get_array();
+                }
                 break;
             case 4:
                 cin >> str;
-                comparison(vector1, vector2, str).get_array();
+                //vector1.comparison(vector2, str).get_array();
+                vector1.comparison_operator(vector2, str).get_array();
                 break;
             case 5:
                 n = get_vector_number(1, 2);
